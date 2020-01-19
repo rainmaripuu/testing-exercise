@@ -10,11 +10,16 @@ def test_file_operations(file_data):
     assert read_line(file_data) == (datetime(2020, 1, 18, 13, 49, 47), "text")
 
 
-@pytest.mark.xfail
+
 def test_read_from_file(existing_file):
     buffer, parsed = read_from_file(existing_file)
 
-    assert parsed == []
+    assert parsed == [
+        (
+            datetime(2020, 1, 18, 13, 49, 47),
+            'text'
+        )
+    ]
 
 
 def test_write_to_file(writable_file):
