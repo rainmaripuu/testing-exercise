@@ -27,26 +27,30 @@ def read_from_file(file_name) -> tuple:
 
 
 def user_input():
-    return input('Please enter a new message (type quit to exit): ')
+    phone_number = input("Please enter phone")
+    message = input('Please enter a new message (type quit to exit): ')
+    return phone_number, message
 
 
-def write_to_file(toAdd, file_name, datetime=datetime):
+def write_to_file(toAdd, file_name):
     curtimestamp = datetime.now()
     with open(file_name, 'a') as f:
         f.write(f'{curtimestamp.isoformat()}, {toAdd}\n')
 
 
-if __name__ == '__main__':
+def main():
     buffer, parsed = read_from_file('messages.txt')
     print(buffer)
     for date, text in parsed:
         print(date.strftime("%d.%m.%Y %H:%M:%S"), ": ", text)
+
     while True:
         # ask for new input
-        toAdd = input('Please enter a new message (type quit to exit): ')
-        if toAdd == "quit":
-            print("Bye!")
-            break
+        toAdd = user_input()
         # string to write
         if toAdd:
             write_to_file(toAdd, 'messages.txt')
+
+
+if __name__ == '__main__':
+    main()
