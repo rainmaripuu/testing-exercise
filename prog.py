@@ -7,8 +7,8 @@ def read_line(line: str) -> tuple:
 
     2020-01-18 09:00:00, message
     """
-    date, text = line.split(',', 1)
-    return datetime.fromisoformat(date), text
+    phone_number, message = line.split(',', 1)
+    return phone_number, message
 
 
 def read_from_file(file_name) -> tuple:
@@ -27,8 +27,13 @@ def read_from_file(file_name) -> tuple:
 
 
 def user_input():
-    phone_number = input("Please enter phone")
-    message = input('Please enter a new message (type quit to exit): ')
+
+    phone_number = int(input("Please enter phone: "))
+    if type(phone_number) is int:
+        message = input('Please enter a new message (type quit to exit): ')
+    else:
+        raise ValueError
+#    message = input('Please enter a new message (type quit to exit): ')
     return phone_number, message
 
 
@@ -41,15 +46,18 @@ def write_to_file(toAdd, file_name):
 def main():
     buffer, parsed = read_from_file('messages.txt')
     print(buffer)
-    for date, text in parsed:
-        print(date.strftime("%d.%m.%Y %H:%M:%S"), ": ", text)
+    for phone_number, message in parsed:
+        print(phone_number, ": ", message)
 
-    while True:
-        # ask for new input
-        toAdd = user_input()
-        # string to write
-        if toAdd:
-            write_to_file(toAdd, 'messages.txt')
+    # while True:
+    #     # ask for new input
+    try: user_input()
+    except ValueError:
+        print('Please enter correct phone number')
+    toAdd = user_input()
+    #     # string to write
+    if toAdd:
+        write_to_file(toAdd, 'messages.txt')
 
 
 if __name__ == '__main__':
